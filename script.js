@@ -15,6 +15,7 @@ const slides = [
         <p class="lead">실시간 전사 · 녹음 파일 일괄 처리 · 결정사항/액션 아이템 · 캘린더 연동 · 회의 맥락 질의응답</p>
         <div class="actions">
           <a class="cta" href="#problem">발표 시작</a>
+          <button class="ghost" type="button" id="planningReasonOpen">기획 배경 작성</button>
           <a class="ghost" href="#architecture">아키텍처 보기</a>
         </div>
       </div>
@@ -231,8 +232,7 @@ const slides = [
           </div>
           <p class="quote">“다음 배포 전까지 iOS foreground 배너를 확인하겠습니다.”</p>
           <div class="actions">
-            <a class="cta" href="#closed-loop">캘린더 등록</a>
-            <a class="ghost" href="#closed-loop">회의 근거 보기</a>
+            <button class="cta" type="button" data-calendar-open>캘린더 등록</button>
           </div>
         </div>
       </div>
@@ -251,11 +251,15 @@ const slides = [
       <div class="copy">
         <p class="eyebrow">Architecture</p>
         <h2>Live Frontend와 Worker Pipeline의 Dual Engine</h2>
+        <div class="actions compact-actions">
+          <button class="ghost" type="button" data-arch-modal="tech">기술 아키텍처 보기</button>
+          <button class="ghost" type="button" data-arch-modal="business">비즈니스 플로우 보기</button>
+        </div>
       </div>
       <div class="architecture">
-        <section class="arch-col"><h3>Client</h3><div class="arch-node">Web / Mobile Web</div><div class="arch-node">실시간 마이크 입력</div><div class="arch-node">녹음 파일 업로드</div></section>
+        <section class="arch-col"><h3>Client</h3><div class="arch-node">Flutter App</div><div class="arch-node">iOS / AOS 구현</div><div class="arch-node">실시간 마이크 입력</div><div class="arch-node">녹음 파일 업로드</div></section>
         <section class="arch-col"><h3>Ingestion</h3><div class="arch-node">WebSocket / API</div><div class="arch-node">Object Storage</div></section>
-        <section class="arch-col"><h3>Processing</h3><div class="arch-node">RDS: Meeting / Segment / Status</div><div class="arch-node">Queue or Polling Worker</div><div class="arch-node">STT Engine</div><div class="arch-node">LLM Orchestrator / LangGraph</div></section>
+        <section class="arch-col"><h3>Processing</h3><div class="arch-node">RDS: Meeting / Segment / Status</div><div class="arch-node">Queue or Polling Worker</div><div class="arch-node">STT → Segment Chunk</div><div class="arch-node">전처리 → LangGraph 사실 추출</div></section>
         <section class="arch-col"><h3>Output</h3><div class="arch-node">Transcript</div><div class="arch-node">Decision / Action Item</div><div class="arch-node">Calendar Connector</div><div class="arch-node">Meeting Chat / Audit Trail</div></section>
       </div>
       <div class="panel">
@@ -340,6 +344,28 @@ const els = {
   sourceToggle: document.getElementById("sourceToggle"),
   sourceDrawer: document.getElementById("sourceDrawer"),
   sourceClose: document.getElementById("sourceClose"),
+  reasonModal: document.getElementById("planningReasonModal"),
+  reasonOpen: null,
+  reasonClose: document.getElementById("planningReasonClose"),
+  reasonCancel: document.getElementById("planningReasonCancel"),
+  reasonBackdrop: document.querySelector(".reason-backdrop"),
+  reasonSave: document.getElementById("planningReasonSave"),
+  reasonText: document.getElementById("planningReasonText"),
+  reasonStatus: document.getElementById("planningReasonStatus"),
+  calendarModal: document.getElementById("calendarModal"),
+  calendarClose: document.getElementById("calendarClose"),
+  calendarCancel: document.getElementById("calendarCancel"),
+  calendarBackdrop: document.querySelector(".calendar-backdrop"),
+  calendarGrid: document.getElementById("calendarGrid"),
+  calendarSelected: document.getElementById("calendarSelected"),
+  calendarSave: document.getElementById("calendarSave"),
+  calendarEvents: document.getElementById("calendarEvents"),
+  archModal: document.getElementById("architectureModal"),
+  archClose: document.getElementById("architectureClose"),
+  archBackdrop: document.querySelector(".architecture-backdrop"),
+  archTitle: document.getElementById("architectureModalTitle"),
+  archCaption: document.getElementById("architectureModalCaption"),
+  archImage: document.getElementById("architectureImage"),
   blackout: document.getElementById("blackout"),
 };
 
@@ -347,6 +373,13 @@ let activeIndex = 0;
 let lastIndex = 0;
 let touchStartX = 0;
 let touchStartY = 0;
+let selectedCalendarDate = "2026-07-02";
+
+const actionItem = {
+  title: "모바일 앱 푸시 배너 노출 수정",
+  owner: "김OO",
+  status: "진행 중",
+};
 
 function render() {
   els.tabs.innerHTML = slides.map((slide) => `<a class="tab" href="#${slide.id}">${slide.tab}</a>`).join("");
@@ -412,9 +445,177 @@ function go(delta) {
 render();
 update();
 
+els.reasonOpen = document.getElementById("planningReasonOpen");
+
+const defaultPlanningReason =
+  "회의가 끝난 뒤에도 정리, 확인, 공유, 후속 조치가 반복되며 의사결정과 담당자 정보가 흩어지는 문제를 해결하기 위해 VoiceDoc을 기획했습니다. 단순 회의록 생성이 아니라 결정사항을 실행 가능한 업무로 연결하고, 이후에도 회의 맥락을 질문할 수 있는 AI Agent를 목표로 합니다.";
+
+function openPlanningReason() {
+  const saved = localStorage.getItem("voicedocPlanningReason");
+  els.reasonText.value = saved || defaultPlanningReason;
+  els.reasonStatus.textContent = saved ? "저장된 기획 배경을 불러왔습니다." : "초안 문구를 자유롭게 수정해보세요.";
+  els.reasonModal.classList.add("open");
+  els.reasonModal.setAttribute("aria-hidden", "false");
+  requestAnimationFrame(() => els.reasonText.focus());
+}
+
+function closePlanningReason() {
+  els.reasonModal.classList.remove("open");
+  els.reasonModal.setAttribute("aria-hidden", "true");
+}
+
+function savePlanningReason() {
+  localStorage.setItem("voicedocPlanningReason", els.reasonText.value.trim());
+  els.reasonStatus.textContent = "저장했습니다. 이 브라우저에서 다시 열면 그대로 유지됩니다.";
+}
+
+function getCalendarEvents() {
+  try {
+    return JSON.parse(localStorage.getItem("voicedocCalendarEvents") || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function setCalendarEvents(events) {
+  localStorage.setItem("voicedocCalendarEvents", JSON.stringify(events));
+}
+
+function renderCalendar() {
+  const year = 2026;
+  const month = 6;
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const events = getCalendarEvents();
+  const eventDates = new Set(events.map((event) => event.date));
+  const cells = [];
+
+  for (let i = 0; i < firstDay; i += 1) {
+    cells.push(`<span class="calendar-day empty" aria-hidden="true"></span>`);
+  }
+
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    const date = `2026-07-${String(day).padStart(2, "0")}`;
+    const isSelected = date === selectedCalendarDate;
+    const hasEvent = eventDates.has(date);
+    cells.push(`
+      <button class="calendar-day ${isSelected ? "selected" : ""} ${hasEvent ? "has-event" : ""}" type="button" data-calendar-date="${date}">
+        <span>${day}</span>
+        ${hasEvent ? "<small>등록됨</small>" : ""}
+      </button>
+    `);
+  }
+
+  els.calendarGrid.innerHTML = cells.join("");
+  els.calendarSelected.textContent = `${selectedCalendarDate}에 등록할 예정입니다.`;
+  renderCalendarEvents();
+}
+
+function renderCalendarEvents() {
+  const events = getCalendarEvents();
+  if (events.length === 0) {
+    els.calendarEvents.innerHTML = `<p class="subcopy">아직 등록된 액션 아이템이 없습니다.</p>`;
+    return;
+  }
+
+  els.calendarEvents.innerHTML = events
+    .map(
+      (event) => `
+        <article class="calendar-event">
+          <strong>${event.date}</strong>
+          <span>${event.title}</span>
+          <small>담당 ${event.owner} · ${event.status}</small>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function openCalendar() {
+  selectedCalendarDate = "2026-07-02";
+  renderCalendar();
+  els.calendarModal.classList.add("open");
+  els.calendarModal.setAttribute("aria-hidden", "false");
+}
+
+function closeCalendar() {
+  els.calendarModal.classList.remove("open");
+  els.calendarModal.setAttribute("aria-hidden", "true");
+}
+
+function registerCalendarEvent() {
+  const events = getCalendarEvents();
+  const nextEvent = {
+    id: "push-banner-action-item",
+    date: selectedCalendarDate,
+    ...actionItem,
+  };
+  const deduped = events.filter((event) => event.id !== nextEvent.id);
+  setCalendarEvents([...deduped, nextEvent].sort((a, b) => a.date.localeCompare(b.date)));
+  renderCalendar();
+  els.calendarSelected.textContent = `${selectedCalendarDate}에 액션 아이템을 등록했습니다.`;
+}
+
+function openArchitectureModal(type) {
+  const content = {
+    tech: {
+      title: "기술 아키텍처",
+      caption: "Flutter App 기반 iOS/AOS 클라이언트에서 입력된 회의 데이터를 Segment Chunk로 전처리한 뒤 LangGraph에 전달합니다. Vector DB 유사도 검색 대신 근거 발화에 묶인 사실 기반 결정론적 데이터 추출을 목표로 합니다.",
+      src: "assets/tech-architecture.svg",
+    },
+    business: {
+      title: "비즈니스 플로우",
+      caption: "회의 기록이 결정사항, 액션 아이템, 캘린더 등록, 상태 추적, 회의 맥락 재질의로 이어지는 업무 흐름입니다.",
+      src: "assets/business-flow.svg",
+    },
+  }[type];
+
+  if (!content) return;
+  els.archTitle.textContent = content.title;
+  els.archCaption.textContent = content.caption;
+  els.archImage.src = content.src;
+  els.archImage.alt = content.title;
+  els.archModal.classList.add("open");
+  els.archModal.setAttribute("aria-hidden", "false");
+}
+
+function closeArchitectureModal() {
+  els.archModal.classList.remove("open");
+  els.archModal.setAttribute("aria-hidden", "true");
+}
+
 window.addEventListener("hashchange", () => update());
 els.prev.addEventListener("click", () => go(-1));
 els.next.addEventListener("click", () => go(1));
+document.addEventListener("click", (event) => {
+  const calendarOpen = event.target.closest("[data-calendar-open]");
+  const calendarDay = event.target.closest("[data-calendar-date]");
+  const archOpen = event.target.closest("[data-arch-modal]");
+
+  if (calendarOpen) {
+    openCalendar();
+  }
+
+  if (archOpen) {
+    openArchitectureModal(archOpen.dataset.archModal);
+  }
+
+  if (calendarDay) {
+    selectedCalendarDate = calendarDay.dataset.calendarDate;
+    renderCalendar();
+  }
+});
+els.reasonOpen.addEventListener("click", openPlanningReason);
+els.reasonClose.addEventListener("click", closePlanningReason);
+els.reasonCancel.addEventListener("click", closePlanningReason);
+els.reasonBackdrop.addEventListener("click", closePlanningReason);
+els.reasonSave.addEventListener("click", savePlanningReason);
+els.calendarClose.addEventListener("click", closeCalendar);
+els.calendarCancel.addEventListener("click", closeCalendar);
+els.calendarBackdrop.addEventListener("click", closeCalendar);
+els.calendarSave.addEventListener("click", registerCalendarEvent);
+els.archClose.addEventListener("click", closeArchitectureModal);
+els.archBackdrop.addEventListener("click", closeArchitectureModal);
 els.presenterToggle.addEventListener("click", () => els.app.classList.toggle("presenter"));
 els.sourceToggle.addEventListener("click", () => {
   els.sourceDrawer.classList.add("open");
@@ -442,6 +643,9 @@ window.addEventListener("keydown", (event) => {
   if (event.key.toLowerCase() === "d") window.location.hash = slides[0].id;
   if (event.key === "Escape") {
     els.sourceDrawer.classList.remove("open");
+    closePlanningReason();
+    closeCalendar();
+    closeArchitectureModal();
     els.blackout.classList.remove("on");
   }
 });

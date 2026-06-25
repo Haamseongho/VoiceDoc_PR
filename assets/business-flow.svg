@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">VoiceDoc 비즈니스 플로우</title>
+  <desc id="desc">회의 기록에서 결정, 액션 아이템, 캘린더 등록, 추적, 재질의까지 이어지는 업무 흐름</desc>
+  <defs>
+    <style>
+      text{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Pretendard","Segoe UI",Arial,sans-serif}
+      .bg{fill:#fffdf7}.band{fill:#302a24}.yellow{fill:#ffd51a}.soft{fill:#fff3bd}.box{fill:#fffaf0;stroke:#8f7a50;stroke-width:2}.dark{fill:#4a4034}.text{fill:#2f2a25}.muted{fill:#6e675e}.white{fill:#fffaf0}.small{font-size:18px}.body{font-size:20px}.mid{font-size:24px;font-weight:760}.big{font-size:40px;font-weight:820}.label{font-size:20px;font-weight:760}.num{font-size:17px;font-weight:820;fill:#2f2a25}.arrow{stroke:#b88700;stroke-width:4.5;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#b88700"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1400" height="900"/>
+  <path class="yellow" d="M0 0h250l-68 104H0z"/>
+  <rect class="band" x="166" y="0" width="1234" height="104"/>
+  <text class="big white" x="230" y="66">비즈니스 플로우 — 회의 이후 업무를 닫는 구조</text>
+
+  <g transform="translate(70 190)">
+    <rect class="box" width="220" height="156" rx="14"/>
+    <rect class="yellow" x="18" y="18" width="184" height="42" rx="10"/>
+    <text class="num" x="34" y="46">01</text>
+    <text class="mid text" x="76" y="47">기록</text>
+    <text class="body muted" x="34" y="108">실시간 회의</text>
+    <text class="body muted" x="34" y="136">녹음 파일 업로드</text>
+  </g>
+  <g transform="translate(345 190)">
+    <rect class="box" width="220" height="156" rx="14"/>
+    <rect class="yellow" x="18" y="18" width="184" height="42" rx="10"/>
+    <text class="num" x="34" y="46">02</text>
+    <text class="mid text" x="76" y="47">구조화</text>
+    <text class="body muted" x="34" y="108">전사·요약</text>
+    <text class="body muted" x="34" y="136">결정사항 추출</text>
+  </g>
+  <g transform="translate(620 190)">
+    <rect class="box" width="220" height="156" rx="14"/>
+    <rect class="yellow" x="18" y="18" width="184" height="42" rx="10"/>
+    <text class="num" x="34" y="46">03</text>
+    <text class="mid text" x="76" y="47">배정</text>
+    <text class="body muted" x="34" y="108">담당자·기한</text>
+    <text class="body muted" x="34" y="136">우선순위·상태</text>
+  </g>
+  <g transform="translate(895 190)">
+    <rect class="box" width="220" height="156" rx="14"/>
+    <rect class="yellow" x="18" y="18" width="184" height="42" rx="10"/>
+    <text class="num" x="34" y="46">04</text>
+    <text class="mid text" x="76" y="47">일정화</text>
+    <text class="body muted" x="34" y="108">캘린더 등록</text>
+    <text class="body muted" x="34" y="136">알림·공유</text>
+  </g>
+  <g transform="translate(1170 190)">
+    <rect class="box" width="160" height="156" rx="14"/>
+    <rect class="yellow" x="16" y="18" width="128" height="42" rx="10"/>
+    <text class="num" x="30" y="46">05</text>
+    <text class="mid text" x="70" y="47">추적</text>
+    <text class="body muted" x="30" y="108">상태</text>
+    <text class="body muted" x="30" y="136">감사 이력</text>
+  </g>
+
+  <path class="arrow" d="M290 268H335"/>
+  <path class="arrow" d="M565 268H610"/>
+  <path class="arrow" d="M840 268H885"/>
+  <path class="arrow" d="M1115 268H1160"/>
+
+  <g transform="translate(164 468)">
+    <rect class="soft" width="1072" height="170" rx="18" stroke="#b88700" stroke-width="2"/>
+    <text class="big text" x="58" y="66">회의록 Chat이 회의 맥락을 다시 열어줍니다</text>
+    <text class="mid muted" x="58" y="116">“왜 결정했지?” · “다음 회의 전 확인할 것은?” · “누가 담당하지?”</text>
+  </g>
+
+  <path class="arrow" d="M1220 554C1012 724 414 724 178 554"/>
+  <text class="label muted" x="360" y="770">기록 → 결정 → 실행 → 추적 → 재질의가 하나의 폐쇄형 업무 루프로 연결됩니다</text>
+  <text class="small muted" x="70" y="850">VoiceDoc Enterprise AI Agent · Business Flow</text>
+</svg>

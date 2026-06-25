@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">VoiceDoc 기술 아키텍처</title>
+  <desc id="desc">Flutter App 기반 iOS/AOS 클라이언트와 segment 전처리 기반 LangGraph 처리 구조를 설명하는 기술 아키텍처</desc>
+  <defs>
+    <style>
+      text{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Pretendard","Segoe UI",Arial,sans-serif}
+      .bg{fill:#fffdf7}.band{fill:#302a24}.yellow{fill:#ffd51a}.soft{fill:#fff3bd}.box{fill:#fffaf0;stroke:#8f7a50;stroke-width:2}.thin{fill:#fffdf7;stroke:#c9b783;stroke-width:1.5}.dark{fill:#4a4034}.text{fill:#2f2a25}.muted{fill:#6e675e}.white{fill:#fffaf0}.caption{fill:#8a6500}.small{font-size:18px}.body{font-size:21px}.mid{font-size:26px;font-weight:760}.big{font-size:40px;font-weight:820}.label{font-size:19px;font-weight:760}.arrow{stroke:#b88700;stroke-width:4.5;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#b88700"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1400" height="900"/>
+  <path class="yellow" d="M0 0h250l-68 104H0z"/>
+  <rect class="band" x="166" y="0" width="1234" height="104"/>
+  <text class="big white" x="230" y="66">기술 아키텍처 — Live Frontend + Worker Pipeline</text>
+  <text class="small muted" x="70" y="850">VoiceDoc Enterprise AI Agent · Technical Architecture</text>
+
+  <g transform="translate(64 150)">
+    <rect class="box" width="250" height="520" rx="12"/>
+    <rect class="dark" width="250" height="58" rx="12"/>
+    <text class="mid white" x="24" y="38">Client</text>
+    <rect class="soft" x="24" y="88" width="202" height="82" rx="10"/>
+    <text class="label text" x="48" y="124">Flutter App</text>
+    <text class="small muted" x="48" y="153">iOS / AOS 구현</text>
+    <rect class="thin" x="24" y="202" width="202" height="64" rx="9"/>
+    <text class="body text" x="48" y="241">실시간 마이크 입력</text>
+    <rect class="thin" x="24" y="288" width="202" height="64" rx="9"/>
+    <text class="body text" x="48" y="327">녹음 파일 업로드</text>
+    <rect class="thin" x="24" y="374" width="202" height="64" rx="9"/>
+    <text class="body text" x="48" y="413">회의록 Chat</text>
+  </g>
+
+  <g transform="translate(374 150)">
+    <rect class="box" width="250" height="520" rx="12"/>
+    <rect class="dark" width="250" height="58" rx="12"/>
+    <text class="mid white" x="24" y="38">Ingestion</text>
+    <rect class="soft" x="24" y="104" width="202" height="76" rx="10"/>
+    <text class="body text" x="48" y="150">WebSocket / API</text>
+    <rect class="thin" x="24" y="218" width="202" height="76" rx="10"/>
+    <text class="body text" x="48" y="264">Object Storage</text>
+    <rect class="thin" x="24" y="332" width="202" height="76" rx="10"/>
+    <text class="body text" x="48" y="378">권한 / 접근 제어</text>
+  </g>
+
+  <g transform="translate(684 150)">
+    <rect class="box" width="326" height="520" rx="12"/>
+    <rect class="dark" width="326" height="58" rx="12"/>
+    <text class="mid white" x="24" y="38">Processing</text>
+    <rect class="soft" x="26" y="84" width="274" height="60" rx="10"/>
+    <text class="body text" x="50" y="122">RDS 상태 모델</text>
+    <rect class="thin" x="26" y="164" width="274" height="60" rx="10"/>
+    <text class="body text" x="50" y="202">Worker Queue / Retry</text>
+    <rect class="thin" x="26" y="244" width="274" height="60" rx="10"/>
+    <text class="body text" x="50" y="282">STT → Segment Chunk</text>
+    <rect class="soft" x="26" y="324" width="274" height="72" rx="10"/>
+    <text class="body text" x="50" y="354">Segment 전처리</text>
+    <text class="small muted" x="50" y="380">발화·시간·참석자·상태 정규화</text>
+    <rect class="thin" x="26" y="416" width="274" height="60" rx="10"/>
+    <text class="body text" x="50" y="454">LangGraph 사실 추출</text>
+  </g>
+
+  <g transform="translate(1070 150)">
+    <rect class="box" width="270" height="520" rx="12"/>
+    <rect class="dark" width="270" height="58" rx="12"/>
+    <text class="mid white" x="24" y="38">Output</text>
+    <rect class="soft" x="26" y="84" width="218" height="60" rx="10"/>
+    <text class="body text" x="54" y="122">Transcript</text>
+    <rect class="thin" x="26" y="164" width="218" height="60" rx="10"/>
+    <text class="body text" x="54" y="202">Decision / Action</text>
+    <rect class="thin" x="26" y="244" width="218" height="60" rx="10"/>
+    <text class="body text" x="54" y="282">Calendar</text>
+    <rect class="thin" x="26" y="324" width="218" height="60" rx="10"/>
+    <text class="body text" x="54" y="362">Meeting Chat</text>
+    <rect class="thin" x="26" y="404" width="218" height="60" rx="10"/>
+    <text class="body text" x="54" y="442">Audit Trail</text>
+  </g>
+
+  <path class="arrow" d="M314 410H364"/>
+  <path class="arrow" d="M624 410H674"/>
+  <path class="arrow" d="M1010 410H1060"/>
+
+  <g transform="translate(205 700)">
+    <rect class="soft" width="990" height="112" rx="14" stroke="#b88700" stroke-width="2"/>
+    <text class="label text" x="38" y="34">Vector DB 유사도 검색을 사용하지 않음</text>
+    <text class="body text" x="38" y="68">각 Segment Chunk를 전처리해 LangGraph에 입력하므로,</text>
+    <text class="body text" x="38" y="96">근거 발화에 묶인 사실 기반 결정론적 데이터만 추출합니다.</text>
+  </g>
+  <path class="arrow" d="M850 626V690"/>
+</svg>

@@ -86,6 +86,95 @@
         </div>
       </aside>
 
+      <section
+        class="reason-modal"
+        id="planningReasonModal"
+        aria-hidden="true"
+        aria-labelledby="planningReasonTitle"
+        role="dialog"
+      >
+        <div class="reason-backdrop" aria-hidden="true"></div>
+        <div class="reason-dialog">
+          <div class="drawer-head">
+            <div>
+              <p class="eyebrow">Planning Background</p>
+              <h2 id="planningReasonTitle">왜 VoiceDoc을 기획했나요?</h2>
+            </div>
+            <button class="icon-btn modal-close" id="planningReasonClose" aria-label="기획 배경 팝업 닫기">×</button>
+          </div>
+          <p class="subcopy">발표 Intro에서 보여줄 기획 이유를 직접 작성할 수 있습니다. 저장하면 현재 브라우저에 유지됩니다.</p>
+          <label class="reason-label" for="planningReasonText">기획하게 된 이유</label>
+          <textarea
+            id="planningReasonText"
+            class="reason-textarea"
+            rows="8"
+            placeholder="예: 회의 후 정리와 후속 조치가 흩어지는 문제를 해결하기 위해..."
+          ></textarea>
+          <p class="reason-status" id="planningReasonStatus" aria-live="polite"></p>
+          <div class="modal-actions">
+            <button class="ghost" type="button" id="planningReasonCancel">닫기</button>
+            <button class="cta" type="button" id="planningReasonSave">저장</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="calendar-modal" id="calendarModal" aria-hidden="true" aria-labelledby="calendarTitle" role="dialog">
+        <div class="calendar-backdrop" aria-hidden="true"></div>
+        <div class="calendar-dialog">
+          <div class="drawer-head">
+            <div>
+              <p class="eyebrow">Calendar Connector</p>
+              <h2 id="calendarTitle">액션 아이템 캘린더 등록</h2>
+            </div>
+            <button class="icon-btn modal-close" id="calendarClose" aria-label="캘린더 팝업 닫기">×</button>
+          </div>
+          <div class="calendar-layout">
+            <section class="calendar-picker" aria-label="2026년 7월 캘린더">
+              <div class="calendar-month">
+                <strong>2026년 7월</strong>
+                <span id="calendarSelected">2026-07-02에 등록할 예정입니다.</span>
+              </div>
+              <div class="calendar-weekdays" aria-hidden="true">
+                <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+              </div>
+              <div class="calendar-grid" id="calendarGrid"></div>
+            </section>
+            <section class="calendar-summary" aria-label="등록할 액션 아이템">
+              <span class="badge assumed">Action Item</span>
+              <h3>모바일 앱 푸시 배너 노출 수정</h3>
+              <div class="mini-meta">
+                <span>담당자 <b>김OO</b></span>
+                <span>우선순위 <b>High</b></span>
+                <span>상태 <b>진행 중</b></span>
+              </div>
+              <p class="quote">선택한 날짜에 액션 아이템이 등록됩니다. 발표용 데모에서는 브라우저 저장소에 등록 내역을 남깁니다.</p>
+              <div class="calendar-events" id="calendarEvents"></div>
+            </section>
+          </div>
+          <div class="modal-actions">
+            <button class="ghost" type="button" id="calendarCancel">닫기</button>
+            <button class="cta" type="button" id="calendarSave">선택 날짜에 등록</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="architecture-modal" id="architectureModal" aria-hidden="true" aria-labelledby="architectureModalTitle" role="dialog">
+        <div class="architecture-backdrop" aria-hidden="true"></div>
+        <div class="architecture-dialog">
+          <div class="drawer-head">
+            <div>
+              <p class="eyebrow">Architecture View</p>
+              <h2 id="architectureModalTitle">기술 아키텍처</h2>
+            </div>
+            <button class="icon-btn modal-close" id="architectureClose" aria-label="아키텍처 팝업 닫기">×</button>
+          </div>
+          <p class="subcopy" id="architectureModalCaption"></p>
+          <div class="architecture-image-frame">
+            <img id="architectureImage" src="assets/tech-architecture.svg" alt="기술 아키텍처" />
+          </div>
+        </div>
+      </section>
+
       <footer class="controls" aria-label="슬라이드 이동">
         <button class="nav-btn" id="prevBtn" aria-label="이전 슬라이드">← 이전</button>
         <span class="counter" id="counter">01 / 10</span>
