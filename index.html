@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VoiceDoc Enterprise AI Agent</title>
+    <meta
+      name="description"
+      content="VoiceDoc 발표용 포트폴리오 웹사이트. 회의 기록을 실행 가능한 업무 흐름으로 연결하는 엔터프라이즈 AI Agent 소개."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app" id="app">
+      <header class="topbar" aria-label="슬라이드 내비게이션">
+        <a class="brand" href="#intro" aria-label="VoiceDoc 첫 화면으로 이동">
+          <span class="brand-mark">VD</span>
+          <span>
+            <strong>VoiceDoc</strong>
+            <small>Enterprise AI Agent</small>
+          </span>
+        </a>
+        <nav class="tabs" id="tabs" aria-label="발표 섹션"></nav>
+        <div class="top-actions">
+          <button class="icon-btn" id="presenterToggle" aria-label="발표자 모드 전환" title="발표자 모드">S</button>
+          <button class="icon-btn" id="sourceToggle" aria-label="출처 및 산식 열기" title="출처 및 산식">i</button>
+        </div>
+      </header>
+
+      <div class="mobile-progress">
+        <span id="mobileTitle">Intro</span>
+        <div class="progress-track" aria-hidden="true"><span id="progressFill"></span></div>
+      </div>
+
+      <main id="slides" class="slides" aria-live="polite"></main>
+
+      <aside class="presenter-panel" id="presenterPanel" aria-label="발표자 노트">
+        <div>
+          <p class="eyebrow">Presenter</p>
+          <h2 id="presenterTitle">Intro</h2>
+          <p id="presenterTime">예상 60초</p>
+        </div>
+        <div>
+          <h3>발표 멘트</h3>
+          <p id="presenterScript"></p>
+        </div>
+        <div>
+          <h3>다음 화면</h3>
+          <p id="nextPreview"></p>
+        </div>
+      </aside>
+
+      <aside class="source-drawer" id="sourceDrawer" aria-label="출처 및 산식" aria-hidden="true">
+        <div class="drawer-head">
+          <div>
+            <p class="eyebrow">Sources</p>
+            <h2>출처 및 산식</h2>
+          </div>
+          <button class="icon-btn" id="sourceClose" aria-label="출처 및 산식 닫기">×</button>
+        </div>
+        <div class="source-list">
+          <article>
+            <span class="badge external">정부 시범 운영</span>
+            <h3>행정안전부 AI 자동회의록 시범 운영</h3>
+            <p>1시간 분량 회의 영상·음성 파일을 약 5분 내 보고서 형태 회의록으로 제공한다고 안내. VoiceDoc 성과가 아닌 배치 처리 가능성 근거.</p>
+            <a href="https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=107994" target="_blank" rel="noreferrer">행정안전부 보도자료</a>
+          </article>
+          <article>
+            <span class="badge external">국내 금융권 도입</span>
+            <h3>NH농협은행 ‘NH AI회의록’ 도입</h3>
+            <p>STT 전사와 LLM 기반 핵심 내용·주요 의사결정 요약, 공유·디지털 자산화 도입 사례. 금융권 현업 적용 가능성 근거.</p>
+            <a href="https://www.yna.co.kr/view/AKR20260504077300002" target="_blank" rel="noreferrer">연합뉴스 보도</a>
+          </article>
+          <article>
+            <span class="badge external">공공 보안형 업무환경</span>
+            <h3>공공용 네이버웍스·클로바노트</h3>
+            <p>공공기관용 협업 환경에 AI 회의록 기능을 통합하고 행정망 기반 보안형 사용을 제시. 보안·권한·업무 연계 필요성의 근거.</p>
+            <a href="https://www.etnews.com/20251217000043" target="_blank" rel="noreferrer">전자신문 보도</a>
+          </article>
+          <article>
+            <span class="badge assumed">PoC 가정값</span>
+            <h3>효과 계산식</h3>
+            <p>월 절감 시간 = 월 회의 수 × 회의당 기존 후속 작업 시간 × 자동화 절감률</p>
+            <p>월 절감 비용 = 월 절감 시간 × 적용 인력의 시간당 총인건비</p>
+          </article>
+        </div>
+      </aside>
+
+      <footer class="controls" aria-label="슬라이드 이동">
+        <button class="nav-btn" id="prevBtn" aria-label="이전 슬라이드">← 이전</button>
+        <span class="counter" id="counter">01 / 10</span>
+        <button class="nav-btn primary" id="nextBtn" aria-label="다음 슬라이드">다음 →</button>
+      </footer>
+
+      <div class="blackout" id="blackout" aria-hidden="true"></div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
