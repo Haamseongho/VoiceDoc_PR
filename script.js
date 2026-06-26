@@ -205,6 +205,60 @@ const slides = [
     `,
   },
   {
+    id: "mind-node",
+    tab: "Mind-node",
+    title: "회의록을 열기 전에 전체 흐름을 먼저 확인합니다",
+    lead: "Meeting Chat으로 세부 내용을 검증하기 전에, Mind-node 뷰에서 회의의 안건, 결정사항, 확인 필요사항, 후속 조치를 한눈에 파악할 수 있습니다.",
+    script:
+      "회의록 전문을 처음부터 읽지 않아도 전체 회의가 어떤 흐름으로 진행됐는지 먼저 확인할 수 있습니다. VoiceDoc은 회의 내용을 Mind-node 형태로 구조화해 핵심 안건, 결정사항, 확인 필요사항, 액션 아이템을 연결해서 보여줍니다. 사용자는 이 지도를 보고 궁금한 지점을 Meeting Chat으로 바로 검증할 수 있습니다.",
+    time: "예상 60초",
+    className: "single mind-node-slide",
+    html: `
+      <div class="copy">
+        <p class="eyebrow">Mind-node Preview</p>
+        <h2>회의 전체 구조를 Mind-node로 미리 체크합니다</h2>
+        <p class="lead">회의록을 열어 긴 문서를 읽기 전에, 어떤 안건이 어떤 결정과 후속 조치로 이어졌는지 시각적으로 검토합니다.</p>
+      </div>
+      <div class="mind-map panel" aria-label="회의 흐름 Mind-node 예시">
+        <div class="mind-center">
+          <span>Meeting</span>
+          <strong>서비스 개선 정기 회의</strong>
+          <small>2026-07-01 · Product / Design / QA</small>
+        </div>
+        <div class="mind-branch agenda">
+          <span class="mind-label">Agenda</span>
+          <h3>사용자 피드백 검토</h3>
+          <p>최근 회의에서 접수된 개선 의견과 우선 검토할 화면 흐름을 정리했습니다.</p>
+        </div>
+        <div class="mind-branch decision">
+          <span class="mind-label">Decision</span>
+          <h3>우선순위 기준 확정</h3>
+          <p>사용 빈도, 수정 범위, 고객 영향도를 기준으로 개선 항목을 분류하기로 했습니다.</p>
+        </div>
+        <div class="mind-branch risk">
+          <span class="mind-label">Check Point</span>
+          <h3>추가 확인 필요사항</h3>
+          <p>담당 부서별 검토 범위와 다음 회의 전까지 필요한 자료를 확인 항목으로 남겼습니다.</p>
+        </div>
+        <div class="mind-branch action">
+          <span class="mind-label">Action Item</span>
+          <h3>담당자·기한 자동 정리</h3>
+          <p>김OO · 2026-07-02 · 개선 항목 목록 정리와 검토 결과 공유가 후속 조치로 추출됩니다.</p>
+        </div>
+        <div class="mind-branch verify">
+          <span class="mind-label">Verify with Chat</span>
+          <h3>근거 발화로 검증</h3>
+          <p>각 노드를 클릭하면 관련 발화 시점과 Meeting Chat 질의로 이어지는 구조입니다.</p>
+        </div>
+      </div>
+      <div class="mind-summary">
+        <article class="card"><h3>빠른 스캔</h3><p>회의록 전문을 열기 전에도 주요 흐름과 쟁점을 먼저 파악합니다.</p></article>
+        <article class="card"><h3>맥락 검증</h3><p>Mind-node에서 발견한 노드를 Meeting Chat으로 질문해 근거를 확인합니다.</p></article>
+        <article class="card"><h3>실행 연결</h3><p>결정사항과 액션 아이템이 담당자, 기한, 상태로 이어지는지 확인합니다.</p></article>
+      </div>
+    `,
+  },
+  {
     id: "closed-loop",
     tab: "Closed-loop",
     title: "결정사항과 액션 아이템은 추적되어야 합니다",
@@ -326,27 +380,52 @@ const slides = [
   },
   {
     id: "roadmap",
-    tab: "Rollout",
-    title: "PoC에서 전사 확산까지 측정 가능하게 도입합니다",
-    lead: "VoiceDoc은 회의를 자동 기록하는 서비스가 아니라, 회의의 결정을 실행 가능한 업무로 바꾸고 운영 지표로 축적하는 AI Agent입니다.",
+    tab: "Q&A",
+    title: "발표 Q&A에서 예상되는 핵심 질문",
+    lead: "이전 질의에서 반복된 화자 분리 방식과 일반 AI 회의록 대비 차별점을 중심으로 답변을 정리했습니다.",
     script:
-      "PoC에서는 회의당 후속 시간과 정확성, 사용자 만족도를 측정합니다. Pilot에서는 캘린더 연동과 안정성을 검증하고, Scale 단계에서 표준 업무 프로세스로 확산합니다.",
+      "마지막으로 예상 질문 두 가지에 답변드리겠습니다. 첫째, 화자 분리는 음성 구간을 발화 단위로 나누고 STT 결과와 시간 정보를 묶어 참석자 라벨을 붙이는 방식으로 처리합니다. 완전 자동 식별이 어려운 경우에는 사용자 보정과 참석자 매핑을 통해 정확도를 높이는 구조입니다. 둘째, VoiceDoc의 차별점은 회의록 생성에서 끝나지 않고 결정사항, 액션 아이템, 캘린더, Meeting Chat, Mind-node까지 이어져 회의 내용을 실행 가능한 업무 흐름으로 바꾼다는 점입니다.",
     time: "예상 60초",
-    className: "single",
+    className: "single qa-slide",
     html: `
       <div class="copy">
-        <p class="eyebrow">Rollout</p>
-        <h2>PoC → Pilot → Scale</h2>
-        <p class="lead">Baseline을 먼저 측정하고 조직 특성에 맞게 성공 기준을 재설정합니다.</p>
+        <p class="eyebrow">Q&A</p>
+        <h2>질문이 들어와도 답변 흐름이 흔들리지 않게 정리합니다</h2>
+        <p class="lead">기술 구현 방식과 서비스 차별점을 분리해 설명하면, VoiceDoc이 단순 회의록이 아니라 업무 실행형 Agent라는 메시지가 선명해집니다.</p>
       </div>
-      <div class="roadmap">
-        <article class="card"><h3>PoC · 4~6주</h3><p>회의가 잦은 1~2개 조직에서 회의당 후속 시간, 정확성, 사용자 만족도를 검증합니다.</p></article>
-        <article class="card"><h3>Pilot · 2~3개월</h3><p>유관 부서로 확대하고 액션 아이템 전환율, 캘린더 연동, 보안 검토를 확인합니다.</p></article>
-        <article class="card"><h3>Scale · 분기 단위</h3><p>전사 또는 핵심 업무군에 확산하고 절감 비용, 준수율, 표준 업무 프로세스 정착을 측정합니다.</p></article>
+      <div class="qa-grid">
+        <article class="qa-card">
+          <span class="badge assumed">Question 01</span>
+          <h3>화자 분리는 어떻게 구분했나요?</h3>
+          <p>음성 데이터를 발화 구간 단위로 나누고, STT 결과와 타임스탬프를 함께 저장해 참석자별 발화 흐름을 구성합니다.</p>
+          <div class="qa-answer">
+            <strong>답변 포인트</strong>
+            <ul>
+              <li>실시간 입력과 녹음 파일 모두 발화 단위 Segment로 분리합니다.</li>
+              <li>각 Segment에는 시간, 텍스트, 임시 화자 라벨을 함께 저장합니다.</li>
+              <li>회의 참석자 정보와 사용자 보정값을 매핑해 최종 화자명을 정리합니다.</li>
+              <li>완전 자동 식별이 어려운 상황을 고려해 수정 가능한 구조로 설계했습니다.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="qa-card">
+          <span class="badge external">Question 02</span>
+          <h3>다른 AI 회의록과 비교한 특장점은 무엇인가요?</h3>
+          <p>VoiceDoc은 전사와 요약에서 끝나는 것이 아니라, 회의 내용을 검증하고 실행 가능한 업무 객체로 연결합니다.</p>
+          <div class="qa-answer">
+            <strong>답변 포인트</strong>
+            <ul>
+              <li>Meeting Chat으로 회의록 생성 후에도 근거 기반 질의가 가능합니다.</li>
+              <li>Mind-node로 회의의 안건, 결정사항, 확인 필요사항을 먼저 스캔할 수 있습니다.</li>
+              <li>Action Item은 담당자, 기한, 상태를 가진 업무 객체로 분리됩니다.</li>
+              <li>Calendar 연결까지 이어져 회의 후속 실행 흐름을 닫는 구조입니다.</li>
+            </ul>
+          </div>
+        </article>
       </div>
-      <div class="panel">
-        <h3>최종 결론</h3>
-        <p class="lead">VoiceDoc은 회의의 결정을 실행 가능한 업무로 바꾸고, 그 결과를 다시 조직의 지식과 운영 지표로 축적하는 AI Agent입니다.</p>
+      <div class="qa-close panel">
+        <h3>핵심 메시지</h3>
+        <p>VoiceDoc은 회의를 기록하는 도구가 아니라, 회의 내용을 검증하고 실행으로 연결하는 AI Agent입니다.</p>
       </div>
     `,
   },
