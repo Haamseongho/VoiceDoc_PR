@@ -96,7 +96,7 @@ const slides = [
             .map(
               ([label, before, after]) => `
               <div class="timeline-row"><strong>${label}</strong><div class="bar"><span style="width:${before / 1.3}%">AS-IS ${before}분</span></div></div>
-              <div class="timeline-row"><span></span><div class="bar"><span style="width:${Math.max(after * 2.2, 15)}%; background:linear-gradient(90deg, #ffd51a, #b88700); color:#2f2a25;">VoiceDoc ${after}분</span></div></div>
+              <div class="timeline-row"><span></span><div class="bar"><span style="width:${Math.max(after * 2.2, 15)}%; background:linear-gradient(90deg, #ffcc00, #ffb800); color:#545045;">VoiceDoc ${after}분</span></div></div>
             `
             )
             .join("")}
@@ -246,7 +246,7 @@ const slides = [
     script:
       "실시간 전사와 대용량 파일 처리를 하나의 요청 흐름으로 억지로 묶으면 경험과 안정성 모두 나빠질 수 있습니다. VoiceDoc은 즉시성과 재시도 가능한 Worker 파이프라인을 분리했습니다.",
     time: "예상 90초",
-    className: "single",
+    className: "single architecture-slide",
     html: `
       <div class="copy">
         <p class="eyebrow">Architecture</p>
@@ -262,11 +262,20 @@ const slides = [
         <section class="arch-col"><h3>Processing</h3><div class="arch-node">RDS: Meeting / Segment / Status</div><div class="arch-node">Queue or Polling Worker</div><div class="arch-node">STT → Segment Chunk</div><div class="arch-node">전처리 → LangGraph 사실 추출</div></section>
         <section class="arch-col"><h3>Output</h3><div class="arch-node">Transcript</div><div class="arch-node">Decision / Action Item</div><div class="arch-node">Calendar Connector</div><div class="arch-node">Meeting Chat / Audit Trail</div></section>
       </div>
-      <div class="panel">
+      <div class="panel status-panel">
         <p class="eyebrow">Status Model</p>
-        <div class="status-list">
+        <div class="status-flow" aria-label="처리 상태 흐름">
           ${["READY / QUEUED", "UPLOADED / STREAMING", "TRANSCRIBING", "SUMMARIZING", "COMPLETED", "FAILED"]
-            .map((s, i) => `<div class="status-item"><b>${i + 1}</b><span>${s}</span><small>${i === 5 ? "재시도 또는 문의" : i === 4 ? "결과 확인 가능" : "처리 중"}</small></div>`)
+            .map(
+              (s, i, list) => `
+                <div class="status-step ${i === 4 ? "complete" : ""} ${i === 5 ? "failed" : ""}">
+                  <b>${i + 1}</b>
+                  <span>${s}</span>
+                  <small>${i === 5 ? "Retry" : i === 4 ? "Done" : "Processing"}</small>
+                </div>
+                ${i < list.length - 1 ? '<span class="status-arrow" aria-hidden="true">→</span>' : '<span class="status-arrow retry" aria-hidden="true">↺</span>'}
+              `
+            )
             .join("")}
         </div>
       </div>
@@ -274,27 +283,44 @@ const slides = [
   },
   {
     id: "governance",
-    tab: "Trust & KPI",
-    title: "운영을 증명하는 AI 시스템이어야 합니다",
-    lead: "엔터프라이즈 AI는 잘 요약하는가뿐 아니라 누가, 언제, 무엇을 처리했고 실패 시 어떻게 복구되는가를 증명해야 합니다.",
+    tab: "Agent Pipeline",
+    title: "Agent 파이프라인은 빠르게 처리하고 안전하게 복구되어야 합니다",
+    lead: "VoiceDoc은 실시간 입력과 대용량 파일 처리를 분리하고, 각 단계의 상태를 저장해 재시도 가능한 구조로 회의 데이터를 업무 객체로 전환합니다.",
     script:
-      "엔터프라이즈 환경에서는 요약 품질만으로 충분하지 않습니다. 열람 이력, 실패 사유, 액션 아이템 전환율까지 측정해야 서비스가 운영 시스템이 됩니다.",
+      "이 화면에서는 VoiceDoc의 데이터가 어떤 구조로 처리되는지 설명합니다. 입력은 실시간 스트림과 파일 업로드로 들어오고, 원본과 세그먼트를 먼저 저장한 뒤 Worker가 전사, 사실 추출, 요약, 액션 아이템 생성을 비동기로 처리합니다. 그래서 사용자는 빠르게 진행 상태를 확인할 수 있고, 실패한 단계만 다시 처리할 수 있어 전체 파이프라인이 효율적이고 안정적으로 동작합니다.",
     time: "예상 70초",
+    className: "single pipeline-slide",
     html: `
       <div class="copy">
-        <p class="eyebrow">Trust & KPI</p>
-        <h2>상태 관리·감사 로그·지표로 운영을 증명합니다</h2>
-        <p class="lead">접근권한, 보존정책, 감사 이력, 품질 피드백, 실패 복구, 근거 발화 링크가 엔터프라이즈 적합성을 만듭니다.</p>
+        <p class="eyebrow">Agent Pipeline</p>
+        <h2>데이터를 단계별로 분리해 처리하고, 실패 지점만 복구합니다</h2>
+        <p class="lead">실시간 응답이 필요한 경로와 무거운 AI 처리를 분리해 사용자 경험은 빠르게 유지하고, Worker Pipeline은 상태 기반으로 안정성을 확보합니다.</p>
       </div>
-      <div class="kpi">
+      <div class="pipeline-flow">
         ${[
-          ["Adoption", "WAU, 회의 생성 수, 실시간 : 배치 비율"],
-          ["Efficiency", "회의당 후속 작업 시간, 수정 소요 시간"],
-          ["Quality", "전사 수정률, 액션 아이템 승인율"],
-          ["Reliability", "처리 성공률, P95 처리 시간, 실패 원인 Top 5"],
+          ["Input", "Live STT / Batch Upload", "음성 스트림과 녹음 파일을 동일한 회의 단위로 수집"],
+          ["Persist", "Raw Audio / Segment", "원본과 발화 조각을 먼저 저장해 중간 실패에도 데이터 보존"],
+          ["Worker", "STT · Chunk · Extract", "무거운 AI 처리는 비동기로 분리해 앱 응답성을 유지"],
+          ["Agent", "Decision / Action Item", "결정사항, 이슈, 담당자, 기한을 구조화된 업무 객체로 생성"],
+          ["Use", "Calendar / Meeting Chat", "캘린더 등록과 회의 맥락 질의응답으로 후속 실행 연결"],
         ]
-          .map(([h, p]) => `<article class="card"><h3>${h}</h3><p>${p}</p></article>`)
+          .map(
+            ([step, title, desc], index, list) => `
+              <article class="pipeline-node">
+                <span>${String(index + 1).padStart(2, "0")}</span>
+                <strong>${step}</strong>
+                <h3>${title}</h3>
+                <p>${desc}</p>
+              </article>
+              ${index < list.length - 1 ? '<div class="pipeline-arrow" aria-hidden="true">→</div>' : ""}
+            `
+          )
           .join("")}
+      </div>
+      <div class="pipeline-outcomes">
+        <article class="card"><span class="badge assumed">Efficiency</span><h3>대기 시간을 줄입니다</h3><p>사용자 화면은 상태 업데이트 중심으로 빠르게 반응하고, 전사·요약·추출은 Worker가 병렬/비동기로 처리합니다.</p></article>
+        <article class="card"><span class="badge external">Stability</span><h3>실패 범위를 작게 만듭니다</h3><p>READY부터 COMPLETED/FAILED까지 상태를 저장하므로 전체 회의를 다시 처리하지 않고 실패 단계만 재시도할 수 있습니다.</p></article>
+        <article class="card"><span class="badge assumed">Expected Effect</span><h3>회의 후속 실행률을 높입니다</h3><p>회의 데이터가 문서에서 끝나지 않고 액션 아이템, 캘린더, Meeting Chat으로 이어져 누락과 재확인 비용을 줄입니다.</p></article>
       </div>
     `,
   },
