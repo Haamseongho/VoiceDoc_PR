@@ -2,7 +2,7 @@ const slides = [
   {
     id: "intro",
     tab: "Intro",
-    title: "회의를 기록하는 AI를 넘어, 실행되도록 만드는 AI Agent",
+    title: "회의를 기록하는 AI를 넘어 실행되도록 만드는 AI Agent",
     lead: "VoiceDoc은 실시간 전사, 녹음 파일 일괄 처리, 결정사항과 액션 아이템, 캘린더 연동, 회의 맥락 질의응답을 하나의 업무 흐름으로 연결합니다.",
     script:
       "대부분의 회의록 서비스는 회의를 텍스트로 남기는 데서 끝납니다. VoiceDoc은 회의 내용이 실제 담당자의 다음 업무까지 이어지도록 설계한 AI Agent입니다.",
@@ -11,7 +11,7 @@ const slides = [
     html: `
       <div class="copy">
         <p class="eyebrow">VoiceDoc Enterprise AI Agent</p>
-        <h1>회의를 기록하는 AI를 넘어,<br />실행되도록 만드는 AI Agent</h1>
+        <h1>회의를 기록하는 AI를 넘어<br />실행되도록 만드는 AI Agent</h1>
         <p class="lead">실시간 전사 · 녹음 파일 일괄 처리 · 결정사항/액션 아이템 · 캘린더 연동 · 회의 맥락 질의응답</p>
         <div class="actions">
           <a class="cta" href="#problem">발표 시작</a>
@@ -95,7 +95,7 @@ const slides = [
           ]
             .map(
               ([label, before, after]) => `
-              <div class="timeline-row"><strong>${label}</strong><div class="bar"><span style="width:${before / 1.3}%">AS-IS ${before}분</span></div></div>
+              <div class="timeline-row"><strong>${label}</strong><div class="bar"><span class="${before <= 20 ? "bar-label-compact" : ""}" style="width:${Math.max(before / 1.3, 16)}%">AS-IS ${before}분</span></div></div>
               <div class="timeline-row"><span></span><div class="bar"><span style="width:${Math.max(after * 2.2, 15)}%; background:linear-gradient(90deg, #ffcc00, #ffb800); color:#545045;">VoiceDoc ${after}분</span></div></div>
             `
             )
@@ -163,43 +163,51 @@ const slides = [
   {
     id: "meeting-chat",
     tab: "Meeting Chat",
-    title: "회의록은 생성된 뒤에도 질문할 수 있어야 합니다",
-    lead: "VoiceDoc은 회의록 생성이 끝나면 회의 맥락 기반 채팅을 활성화해 결정 근거, 담당자, 일정, 누락된 후속 조치를 능동적으로 확인할 수 있습니다.",
+    title: "배치테스트 회의록에서 담당자와 기한을 바로 확인합니다",
+    lead: "VoiceDoc은 배치테스트 회의록에 흩어진 교육 준비 업무를 질문 한 번으로 찾아 담당자, 기한, 근거까지 함께 보여줍니다.",
     script:
-      "타 AI Agent 서비스가 회의록 생성이나 요약에서 멈춘다면, VoiceDoc은 생성된 회의록을 다시 질문할 수 있는 업무 지식으로 전환합니다. 사용자는 누가 무엇을 하기로 했는지, 왜 그렇게 결정했는지, 다음 회의 전까지 무엇을 확인해야 하는지 회의 근거와 함께 확인할 수 있습니다.",
+      "실제 배치테스트 사례입니다. 사용자가 실습 환경이나 커리큘럼 담당자를 질문하면, VoiceDoc은 담당자만 답하는 것이 아니라 해야 할 일과 기한, 답변의 근거가 된 회의록 문장까지 함께 연결합니다.",
     time: "예상 70초",
     html: `
       <div class="copy">
-        <p class="eyebrow">Meeting Chat</p>
-        <h2>생성된 회의록을 다시 질문하는 능동형 체크 기능</h2>
-        <p class="lead">회의록은 문서로 저장되는 순간 끝나는 것이 아니라, 이후 업무 의사결정과 실행 상태를 확인하는 인터페이스가 됩니다.</p>
-        <div class="grid two">
-          <article class="card"><h3>근거 기반 질의</h3><p>요약문만 다시 보여주지 않고 관련 발화, 참석자, 시점을 함께 연결해 답변합니다.</p></article>
-          <article class="card"><h3>실행 항목 점검</h3><p>담당자, 기한, 상태를 기준으로 누락된 후속 조치와 다음 확인 대상을 찾아냅니다.</p></article>
+        <p class="eyebrow">Meeting Chat · Test Case 01</p>
+        <h2>“누가, 언제까지?”를 회의록에 바로 질문합니다</h2>
+        <p class="lead">긴 회의록을 다시 읽지 않아도 교육 준비 업무의 담당자와 마감일을 근거 문장과 함께 확인합니다.</p>
+        <div class="meeting-context">
+          <span class="meeting-state">● 완료</span>
+          <div>
+            <strong>배치테스트</strong>
+            <small>MTG-20260628-011 · 2026.06.28 23:23</small>
+          </div>
+        </div>
+        <div class="grid two chat-points">
+          <article class="card"><h3>담당자 즉시 확인</h3><p>역할과 해야 할 일을 한 답변 안에서 구조화합니다.</p></article>
+          <article class="card"><h3>회의록 근거 연결</h3><p>답변마다 원문 요약 근거를 함께 제시합니다.</p></article>
         </div>
       </div>
       <div class="panel chat-panel">
-        <p class="eyebrow">After Meeting Intelligence</p>
+        <div class="test-case-head">
+          <div><span>VD</span><strong>회의록 챗봇</strong></div>
+          <small>배치테스트 · MTG-20260628-011</small>
+        </div>
         <div class="chat-window" aria-label="회의록 채팅 예시">
-          <div class="chat-bubble user">이번 회의에서 다음 배포 전까지 반드시 확인해야 할 항목은?</div>
+          <div class="chat-bubble user">실습 환경 준비 담당자는?</div>
           <div class="chat-bubble agent">
-            <strong>확인 대상은 3개입니다.</strong>
-            <ol>
-              <li>iOS foreground 푸시 배너 노출 수정 — 담당 김OO, 기한 2026-07-02</li>
-              <li>QA 체크리스트에 배너 케이스 추가 — 담당 박OO</li>
-              <li>배포 전 마케팅 문구 최종 승인 — 담당 이OO</li>
-            </ol>
-            <span>근거: 32:14, 38:02, 44:51 발화</span>
+            <strong>실습 담당자입니다.</strong>
+            2026년 7월 31일까지 실습 환경 구성 방식, 필요한 계정 및 권한, 사전 준비 사항을 정리합니다.
+            <span>근거 · minutes / 실습 환경 구성 방식·계정·권한 정리</span>
           </div>
-          <div class="chat-bubble user">왜 iOS 이슈가 우선순위 High로 분류됐나요?</div>
+          <div class="chat-bubble user">커리큘럼 목차 초안 작성 담당자는?</div>
           <div class="chat-bubble agent compact">
-            고객 알림 누락 가능성이 있고 다음 앱 배포 일정에 직접 영향을 주기 때문입니다. 관련 결정사항과 액션 아이템을 연결했습니다.
+            <strong>커리큘럼 담당자입니다.</strong>
+            2026년 7월 24일까지 UDEMY 과정을 선정하고 KB 맞춤형 교육 목차 초안을 작성합니다.
+            <span>근거 · minutes / UDEMY 과정 선정·KB 맞춤형 목차 초안</span>
           </div>
         </div>
-        <div class="grid three chat-benefits">
-          <article class="card"><h3>Recall</h3><p>과거 회의 결정을 즉시 검색</p></article>
-          <article class="card"><h3>Verify</h3><p>AI 답변의 발화 근거 확인</p></article>
-          <article class="card"><h3>Follow-up</h3><p>담당자·기한 중심 실행 점검</p></article>
+        <div class="suggestion-row" aria-label="추천 질문">
+          <span>추천 질문</span>
+          <span class="suggestion-chip">운영 방식 검토 담당자는?</span>
+          <span class="suggestion-chip">10월 2일 최종 확정 사항은?</span>
         </div>
       </div>
     `,
@@ -261,34 +269,65 @@ const slides = [
   {
     id: "closed-loop",
     tab: "Closed-loop",
-    title: "결정사항과 액션 아이템은 추적되어야 합니다",
-    lead: "회의 데이터를 담당자, 기한, 우선순위, 상태가 있는 업무 카드로 전환해 실행 루프를 닫습니다.",
+    title: "회의에서 추출된 N개의 후속 조치를 실행 일정으로 전환합니다",
+    lead: "회의에서 합의한 교육 준비 항목을 담당자와 기한이 있는 업무 객체로 구조화해 누락 없이 추적합니다.",
     script:
-      "회의록이 남아도 업무가 실행되지 않으면 생산성 개선은 완성되지 않습니다. VoiceDoc은 회의 데이터를 액션 아이템이라는 업무 객체로 바꾸고 일정, 담당자, 상태까지 연결합니다.",
+      "회의마다 내용에 따라 N개의 후속 조치가 추출됩니다. 배치테스트 사례에서는 7월 참여 의사 확인부터 10월 정식 운영과 COP 활동 계획 확정까지, 각 항목을 담당자와 기한이 있는 실행 일정으로 연결합니다.",
     time: "예상 60초",
+    className: "single closed-loop-slide",
     html: `
       <div class="copy">
-        <p class="eyebrow">Closed-loop</p>
-        <h2>회의록에서 실행 가능한 업무 카드로</h2>
-        <p class="lead">Live STT와 Batch Upload로 입력 방식을 통합하고, Meeting Chat으로 시간이 지난 뒤에도 결정 근거를 다시 확인합니다.</p>
+        <p class="eyebrow">Closed-loop · Test Case 02</p>
+        <h2>회의가 끝난 순간, N개의 후속 조치가 시작됩니다</h2>
+        <p class="lead">회의마다 추출되는 후속 조치의 수는 달라집니다. 아래는 배치테스트 회의록에서 추출한 교육 준비 업무 예시입니다.</p>
       </div>
-      <div class="panel demo-card">
-        <div class="action-item">
-          <div class="action-head">
-            <span class="pill">High</span>
-            <span class="badge assumed">Action Item</span>
+      <div class="panel followup-board">
+        <div class="followup-head">
+          <div>
+            <span class="meeting-state">● 완료</span>
+            <strong>배치테스트</strong>
+            <small>MTG-20260628-011</small>
           </div>
-          <h3>모바일 앱 푸시 배너 노출 수정</h3>
-          <div class="mini-meta">
-            <span>담당자 <b>김OO</b></span>
-            <span>기한 <b>2026-07-02</b></span>
-            <span>상태 <b>진행 중</b></span>
-          </div>
-          <p class="quote">“다음 배포 전까지 iOS foreground 배너를 확인하겠습니다.”</p>
-          <div class="actions">
-            <button class="cta" type="button" data-calendar-open>캘린더 등록</button>
-          </div>
+          <span class="followup-count">후속 조치 <b>N</b></span>
         </div>
+        <div class="followup-list">
+          ${[
+            ["교육 참여 의사 및 가능 시간대 공유", "현 회의 참석자 4명", "2026-07-10"],
+            ["온라인·오프라인 운영 장단점 및 추천안 정리", "교육 담당자", "2026-07-17"],
+            ["UDEMY 과정 선정 및 KB 맞춤형 목차 초안 작성", "커리큘럼 담당자", "2026-07-24"],
+            ["실습 환경 구성 방식·계정·권한·사전 준비 사항 정리", "실습 담당자", "2026-07-31"],
+            ["교육 운영 방식 및 최종 참여자 명단 확정, 교육 준비 시작", "담당자 미정", "2026-08-04"],
+            ["교육 세부 목차 및 실습 과제 운영 가이드 최종 검토", "담당자 미정", "2026-09-18"],
+            ["교육 준비 결과 공유 및 정식 운영·COP 활동 계획 확정", "담당자 미정", "2026-10-02"],
+          ]
+            .map(
+              ([title, owner, date], index) => `
+                <article class="followup-item">
+                  <span class="followup-check" aria-hidden="true">${index + 1}</span>
+                  <div>
+                    <h3>${title}</h3>
+                    <p><b>${owner}</b><span>기한 ${date}</span></p>
+                  </div>
+                  <button
+                    class="schedule-add"
+                    type="button"
+                    data-calendar-open
+                    data-action-id="batch-followup-${index + 1}"
+                    data-action-title="${title}"
+                    data-action-owner="${owner}"
+                    data-action-date="${date}"
+                  >+ 일정 추가</button>
+                </article>
+              `
+            )
+            .join("")}
+        </div>
+        <div class="followup-summary">
+          <span><b>담당자 지정</b> 항목 추적</span>
+          <span><b>담당자 미정</b> 항목 확인</span>
+          <span><b>2026-10-02</b> 최종 마감</span>
+        </div>
+        <p class="followup-note">※ 추출된 후속 조치가 없는 회의는 캘린더 연동을 제공하지 않습니다.</p>
       </div>
     `,
   },
@@ -461,10 +500,17 @@ const els = {
   calendarClose: document.getElementById("calendarClose"),
   calendarCancel: document.getElementById("calendarCancel"),
   calendarBackdrop: document.querySelector(".calendar-backdrop"),
+  calendarPicker: document.getElementById("calendarPicker"),
+  calendarMonthLabel: document.getElementById("calendarMonthLabel"),
   calendarGrid: document.getElementById("calendarGrid"),
   calendarSelected: document.getElementById("calendarSelected"),
   calendarSave: document.getElementById("calendarSave"),
   calendarEvents: document.getElementById("calendarEvents"),
+  calendarEventsTitle: document.getElementById("calendarEventsTitle"),
+  calendarActionTitle: document.getElementById("calendarActionTitle"),
+  calendarActionOwner: document.getElementById("calendarActionOwner"),
+  calendarActionDue: document.getElementById("calendarActionDue"),
+  calendarActionStatus: document.getElementById("calendarActionStatus"),
   archModal: document.getElementById("architectureModal"),
   archClose: document.getElementById("architectureClose"),
   archBackdrop: document.querySelector(".architecture-backdrop"),
@@ -480,10 +526,12 @@ let touchStartX = 0;
 let touchStartY = 0;
 let selectedCalendarDate = "2026-07-02";
 
-const actionItem = {
-  title: "모바일 앱 푸시 배너 노출 수정",
-  owner: "김OO",
-  status: "진행 중",
+let currentActionItem = {
+  id: "batch-followup-1",
+  title: "교육 참여 의사 및 가능 시간대 공유",
+  owner: "현 회의 참석자 4명",
+  dueDate: "2026-07-10",
+  status: "등록 전",
 };
 
 function render() {
@@ -587,8 +635,9 @@ function setCalendarEvents(events) {
 }
 
 function renderCalendar() {
-  const year = 2026;
-  const month = 6;
+  const [yearText, monthText] = selectedCalendarDate.split("-");
+  const year = Number(yearText);
+  const month = Number(monthText) - 1;
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const events = getCalendarEvents();
@@ -600,7 +649,7 @@ function renderCalendar() {
   }
 
   for (let day = 1; day <= daysInMonth; day += 1) {
-    const date = `2026-07-${String(day).padStart(2, "0")}`;
+    const date = `${yearText}-${monthText}-${String(day).padStart(2, "0")}`;
     const isSelected = date === selectedCalendarDate;
     const hasEvent = eventDates.has(date);
     cells.push(`
@@ -611,15 +660,21 @@ function renderCalendar() {
     `);
   }
 
+  els.calendarMonthLabel.textContent = `${year}년 ${month + 1}월`;
+  els.calendarPicker.setAttribute("aria-label", `${year}년 ${month + 1}월 캘린더`);
   els.calendarGrid.innerHTML = cells.join("");
   els.calendarSelected.textContent = `${selectedCalendarDate}에 등록할 예정입니다.`;
   renderCalendarEvents();
 }
 
 function renderCalendarEvents() {
-  const events = getCalendarEvents();
+  const visibleMonth = selectedCalendarDate.slice(0, 7);
+  const events = getCalendarEvents().filter((event) => event.date.startsWith(visibleMonth));
+  const [year, month] = visibleMonth.split("-");
+  els.calendarEventsTitle.textContent = `${year}년 ${Number(month)}월 등록 일정`;
+
   if (events.length === 0) {
-    els.calendarEvents.innerHTML = `<p class="subcopy">아직 등록된 액션 아이템이 없습니다.</p>`;
+    els.calendarEvents.innerHTML = `<p class="subcopy">이 달에 등록된 액션 아이템이 없습니다.</p>`;
     return;
   }
 
@@ -636,8 +691,19 @@ function renderCalendarEvents() {
     .join("");
 }
 
-function openCalendar() {
-  selectedCalendarDate = "2026-07-02";
+function openCalendar(trigger) {
+  currentActionItem = {
+    id: trigger?.dataset.actionId || currentActionItem.id,
+    title: trigger?.dataset.actionTitle || currentActionItem.title,
+    owner: trigger?.dataset.actionOwner || currentActionItem.owner,
+    dueDate: trigger?.dataset.actionDate || currentActionItem.dueDate,
+    status: "등록 전",
+  };
+  selectedCalendarDate = currentActionItem.dueDate;
+  els.calendarActionTitle.textContent = currentActionItem.title;
+  els.calendarActionOwner.textContent = currentActionItem.owner;
+  els.calendarActionDue.textContent = currentActionItem.dueDate;
+  els.calendarActionStatus.textContent = currentActionItem.status;
   renderCalendar();
   els.calendarModal.classList.add("open");
   els.calendarModal.setAttribute("aria-hidden", "false");
@@ -651,12 +717,16 @@ function closeCalendar() {
 function registerCalendarEvent() {
   const events = getCalendarEvents();
   const nextEvent = {
-    id: "push-banner-action-item",
+    id: currentActionItem.id,
     date: selectedCalendarDate,
-    ...actionItem,
+    title: currentActionItem.title,
+    owner: currentActionItem.owner,
+    status: "등록 완료",
   };
   const deduped = events.filter((event) => event.id !== nextEvent.id);
   setCalendarEvents([...deduped, nextEvent].sort((a, b) => a.date.localeCompare(b.date)));
+  currentActionItem.status = "등록 완료";
+  els.calendarActionStatus.textContent = currentActionItem.status;
   renderCalendar();
   els.calendarSelected.textContent = `${selectedCalendarDate}에 액션 아이템을 등록했습니다.`;
 }
@@ -698,7 +768,7 @@ document.addEventListener("click", (event) => {
   const archOpen = event.target.closest("[data-arch-modal]");
 
   if (calendarOpen) {
-    openCalendar();
+    openCalendar(calendarOpen);
   }
 
   if (archOpen) {

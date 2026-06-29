@@ -17,13 +17,13 @@
   --panel-strong: #fff7d6;
   --line: var(--soft-gray);
   --text: var(--charcoal);
-  --muted: var(--text-gray);
-  --soft: var(--kb-gray);
+  --muted: var(--charcoal);
+  --soft: var(--charcoal);
   --cyan: var(--kb-yellow-positive);
   --teal: var(--deep-green);
   --amber: var(--kb-yellow-negative);
   --brown: var(--kb-gray);
-  --brown-strong: var(--kb-dark-gray);
+  --brown-strong: var(--charcoal);
   --sand: #fff4bf;
   --red: var(--warm-red);
   --title-font: "KB금융 제목체", "KBFGDisplay", "KBFG Display", Pretendard, Inter, ui-sans-serif, system-ui, sans-serif;
@@ -50,6 +50,10 @@ body {
   color: var(--text);
   font-family: var(--body-font);
   font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 button,
@@ -308,10 +312,14 @@ h2,
 h3 {
   margin-top: 0;
   font-family: var(--title-font);
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 p {
   margin-top: 0;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 h1 {
@@ -492,6 +500,12 @@ h3 {
   gap: 12px;
 }
 
+.compact-chart {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
 .timeline-row {
   display: grid;
   grid-template-columns: 132px 1fr;
@@ -518,6 +532,13 @@ h3 {
   color: var(--white);
   font-size: 13px;
   font-weight: 900;
+  white-space: nowrap;
+}
+
+.bar span.bar-label-compact {
+  padding-left: 6px;
+  font-size: 10px;
+  letter-spacing: -0.04em;
 }
 
 .matrix {
@@ -547,6 +568,12 @@ h3 {
 .matrix-row > div:first-child {
   border-left: 0;
   color: var(--text);
+}
+
+.matrix-row:first-child > div,
+.matrix-row:first-child > div:first-child {
+  border-left-color: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
 }
 
 .matrix-row b {
@@ -612,10 +639,13 @@ h3 {
 
 .status-step {
   display: grid;
-  width: clamp(84px, 9vw, 104px);
+  grid-template-rows: 30px minmax(32px, auto) 13px;
+  align-content: center;
+  width: clamp(125px, 11.875vw, 145px);
   aspect-ratio: 1;
   place-items: center;
-  padding: 10px;
+  gap: 4px;
+  padding: 15px;
   border: 2px solid rgba(255, 184, 0, 0.72);
   border-radius: 50%;
   background: var(--white);
@@ -633,21 +663,24 @@ h3 {
   background: var(--kb-yellow-positive);
   color: var(--brown-strong);
   font-family: var(--number-font);
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1;
 }
 
 .status-step span {
+  display: grid;
+  min-height: 30px;
+  place-items: center;
   color: var(--text);
   font-family: var(--number-font);
-  font-size: 12px;
+  font-size: 10.8px;
   font-weight: 800;
   line-height: 1.2;
 }
 
 .status-step small {
   color: var(--deep-green);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
 }
 
@@ -736,6 +769,79 @@ h3 {
   gap: 14px;
 }
 
+.meeting-context,
+.test-case-head,
+.followup-head {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.meeting-context {
+  margin-top: 22px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--kb-yellow-positive);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.meeting-context > div,
+.test-case-head > div,
+.followup-head > div {
+  display: grid;
+  gap: 3px;
+}
+
+.meeting-context small,
+.test-case-head small,
+.followup-head small {
+  color: var(--text-gray);
+  font-size: 12px;
+}
+
+.meeting-state {
+  width: max-content;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: rgba(46, 125, 91, 0.1);
+  color: var(--deep-green);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.chat-points {
+  margin-top: 12px;
+}
+
+.chat-points .card {
+  padding: 14px;
+}
+
+.test-case-head {
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.test-case-head > div {
+  grid-template-columns: 34px 1fr;
+  align-items: center;
+}
+
+.test-case-head > div span {
+  display: grid;
+  grid-row: 1 / 3;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--kb-gray);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 900;
+}
+
 .chat-window {
   display: grid;
   gap: 10px;
@@ -782,12 +888,15 @@ h3 {
 
 .chat-bubble.agent span {
   display: inline-flex;
+  max-width: 100%;
+  margin-top: 9px;
   padding: 5px 8px;
   border-radius: 5px;
   background: rgba(255, 204, 0, 0.24);
   color: var(--kb-dark-gray);
   font-size: 12px;
   font-weight: 800;
+  overflow-wrap: anywhere;
 }
 
 .chat-bubble.compact {
@@ -796,6 +905,183 @@ h3 {
 
 .chat-benefits .card {
   box-shadow: none;
+}
+
+.suggestion-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.suggestion-row::-webkit-scrollbar {
+  display: none;
+}
+
+.suggestion-row > span {
+  flex: 0 0 auto;
+  color: var(--text-gray);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.suggestion-row > .suggestion-chip {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--white);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.closed-loop-slide {
+  align-content: center;
+  gap: 14px;
+  padding-top: 88px;
+  padding-bottom: 74px;
+}
+
+.closed-loop-slide .copy {
+  max-width: 1040px;
+}
+
+.closed-loop-slide h2 {
+  margin-bottom: 10px;
+  font-size: clamp(28px, 3.5vw, 44px);
+}
+
+.followup-board {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-top-color: var(--deep-green);
+}
+
+.followup-head {
+  justify-content: space-between;
+}
+
+.followup-head > div {
+  grid-template-columns: auto auto;
+}
+
+.followup-head .meeting-state {
+  grid-row: 1 / 3;
+  align-self: center;
+  margin-right: 4px;
+}
+
+.followup-count {
+  color: var(--text-gray);
+  font-size: 13px;
+}
+
+.followup-count b {
+  color: var(--deep-green);
+  font-size: 20px;
+}
+
+.followup-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.followup-item {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--warm-white);
+}
+
+.followup-item:last-child {
+  grid-column: 1 / -1;
+}
+
+.followup-check {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 2px solid var(--kb-yellow-positive);
+  border-radius: 50%;
+  color: var(--kb-dark-gray);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.followup-item h3 {
+  margin-bottom: 5px;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.followup-item p {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  color: var(--text-gray);
+  font-size: 11px;
+}
+
+.followup-item p b {
+  color: var(--deep-green);
+}
+
+.schedule-add {
+  min-height: 30px;
+  padding: 5px 8px;
+  border: 1px solid rgba(46, 125, 91, 0.28);
+  border-radius: 6px;
+  background: rgba(46, 125, 91, 0.08);
+  color: var(--deep-green);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+  transition: 160ms ease;
+}
+
+.schedule-add:hover,
+.schedule-add:focus-visible {
+  border-color: var(--deep-green);
+  background: var(--deep-green);
+  color: var(--white);
+  outline: none;
+}
+
+.followup-summary {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.followup-summary span {
+  padding: 6px 9px;
+  border-radius: 6px;
+  background: rgba(46, 125, 91, 0.08);
+  color: var(--text-gray);
+  font-size: 11px;
+}
+
+.followup-summary b {
+  color: var(--deep-green);
+}
+
+.followup-note {
+  margin: -2px 0 0;
+  color: var(--text-gray);
+  font-size: 10px;
+  line-height: 1.4;
 }
 
 .mind-node-slide {
@@ -1467,6 +1753,11 @@ h3 {
   gap: 14px;
 }
 
+.calendar-events-title {
+  color: var(--brown-strong);
+  font-size: 13px;
+}
+
 .calendar-events {
   display: grid;
   gap: 8px;
@@ -1523,6 +1814,16 @@ h3 {
 
 .blackout.on {
   display: block;
+}
+
+@media (min-width: 1041px) and (max-width: 1240px) {
+  .status-flow {
+    gap: 4px;
+  }
+
+  .status-arrow {
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 1040px) {
@@ -1583,6 +1884,12 @@ h3 {
   }
 
   .mind-node-slide {
+    align-content: start;
+    padding-top: 142px;
+    padding-bottom: 98px;
+  }
+
+  .closed-loop-slide {
     align-content: start;
     padding-top: 142px;
     padding-bottom: 98px;
@@ -1650,28 +1957,39 @@ h3 {
   }
 
   .status-step {
-    width: 104px;
+    width: 140px;
+  }
+
+  .followup-list {
+    grid-template-columns: 1fr;
+  }
+
+  .followup-item:last-child {
+    grid-column: auto;
   }
 }
 
 @media (max-width: 700px) {
   h1 {
-    font-size: 34px;
-    line-height: 1.12;
+    font-size: clamp(28px, 8.2vw, 32px);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
   }
 
   h2 {
-    font-size: 27px;
-    line-height: 1.16;
+    font-size: clamp(23px, 6.7vw, 26px);
+    line-height: 1.14;
+    letter-spacing: -0.02em;
   }
 
   h3 {
-    font-size: 16px;
+    font-size: 15px;
+    line-height: 1.35;
   }
 
   .lead {
-    font-size: 15px;
-    line-height: 1.48;
+    font-size: 14px;
+    line-height: 1.45;
   }
 
   .topbar {
@@ -1721,6 +2039,46 @@ h3 {
     padding: 14px;
   }
 
+  .card p,
+  .metric p,
+  .subcopy {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .eyebrow {
+    margin-bottom: 10px;
+    font-size: 11px;
+  }
+
+  .compact-chart {
+    margin-top: 20px;
+    padding-top: 18px;
+  }
+
+  .meeting-context {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .test-case-head {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .chat-bubble {
+    max-width: 94%;
+  }
+
+  .followup-item {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+
+  .schedule-add {
+    grid-column: 2;
+    justify-self: start;
+  }
+
   .hero::before {
     background:
       linear-gradient(180deg, rgba(250, 249, 247, 0.72) 0%, rgba(250, 249, 247, 0.98) 58%),
@@ -1751,7 +2109,7 @@ h3 {
   }
 
   .status-step {
-    width: min(104px, 42vw);
+    width: min(140px, 44vw);
   }
 
   .calendar-dialog {
@@ -1845,7 +2203,8 @@ h3 {
   }
 
   .pipeline-slide,
-  .architecture-slide {
+  .architecture-slide,
+  .closed-loop-slide {
     padding-top: 78px;
     padding-bottom: 68px;
   }
@@ -1858,7 +2217,33 @@ h3 {
   }
 
   .status-step {
-    width: clamp(78px, 8vw, 92px);
+    width: clamp(120px, 10.75vw, 133px);
+  }
+
+  .closed-loop-slide {
+    gap: 8px;
+  }
+
+  .closed-loop-slide .lead {
+    margin-bottom: 0;
+  }
+
+  .followup-board {
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .followup-list {
+    gap: 6px;
+  }
+
+  .followup-item {
+    padding: 7px 9px;
+  }
+
+  .followup-item h3 {
+    margin-bottom: 3px;
+    font-size: 12px;
   }
 }
 
